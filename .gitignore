@@ -1,0 +1,13 @@
+
+# Archivos y Carpetas de Entornos Virtuales
+venv/
+*.pyc
+
+# Archivos de Credenciales y Secretos
+.env
+
+# Archivos temporales de VS Code
+.vscode/
+
+# Archivos de la base de datos local (si usáramos SQLite)
+*.db
