@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Menú de Partida{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title text-center mb-4">🕹️ Menú de Partida</h2>
+        <p class="text-center lead">Hola, **{{ session['alias'] }}**! Elige la configuración para empezar a jugar.</p>
+        <hr>
+        
+        <form method="POST" action="{{ url_for('main.menu') }}">
+            
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoría:</label>
+                <select class="form-select" id="categoria" name="categoria_id" required>
+                    <option value="">Selecciona una Categoría...</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="dificultad" class="form-label">Dificultad:</label>
+                <select class="form-select" id="dificultad" name="dificultad_id" required>
+                    <option value="">Selecciona una Dificultad...</option>
+                    {% for dificultad in dificultades %}
+                        <option value="{{ dificultad.id }}">{{ dificultad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-4">
+                <label for="nro_preguntas" class="form-label">Número de Preguntas:</label>
+                <input type="number" 
+                       class="form-control" 
+                       id="nro_preguntas" 
+                       name="nro_preguntas" 
+                       value="5" 
+                       min="5" 
+                       max="15" 
+                       required>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg">🎮 Iniciar Partida</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
