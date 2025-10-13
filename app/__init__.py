@@ -27,9 +27,9 @@ def create_app():
     from .utils import obtener_preguntas_dummy 
     
     with app.app_context():
-        # Crea todas las tablas definidas en models.py (Jugador, Pregunta, Partida)
+        # Crea todas las tablas definidas en models.py
         db.create_all() 
-        # Carga las preguntas de prueba en la DB (usando la función que pegaste en utils.py)
+        # Carga las preguntas de prueba en la DB 
         obtener_preguntas_dummy() 
 
     return app
