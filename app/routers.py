@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
+import datetime
 import os
 import random
 
@@ -39,9 +40,15 @@ def inicio():
         if not alias:
             return render_template('inicio.html', error="El alias no puede estar vacío.")
 
-        # Lógica de Jugador: Asume que se crea o encuentra un ID
-        jugador_id = 999 
-            
+        # Si el jugador ya existe, lo carga; si no, lo crea.
+        jugador = Jugador.query.filter_by(alias=alias).first()
+        
+        if not jugador:
+            # Crea el nuevo jugador si no existe.
+            jugador = Jugador(alias=alias, fecha_alta=datetime.datetime.now())
+            db.session.add(jugador)
+            db.session.commit()  
+                      
         session['alias'] = alias
         session['jugador_id'] = jugador_id
         
@@ -63,31 +70,32 @@ def menu():
     if 'alias' not in session:
         return redirect(url_for('main.inicio'))
 
-    # SIMULACIÓN DE DATOS para menu.html
+  #Llamadas a la base de datos
+    categorias = Categoria.query.all()
+    dificultades = Dificultad.query.all()
  
-    categorias = [{'id': 1, 'nombre': 'Historia'}, {'id': 2, 'nombre': 'Ciencia'}]
-    dificultades = [{'id': 1, 'nombre': 'Fácil'}, {'id': 2, 'nombre': 'Medio'}]
-    
     if request.method == 'POST':
         categoria_id = request.form.get('categoria_id')
+        dificultad_id = request.form.get('dificultad_id')
         nro_preguntas = int(request.form.get('nro_preguntas', 5))
         
-        # SIMULACIÓN de preguntas para que la ruta /jugar funcione
-        preguntas_simuladas = [
-            {'id': 1, 'texto': '¿Capital de Australia?', 'opciones': ['Sídney', 'Melbourne', 'Canberra', 'Perth']},
-            {'id': 2, 'texto': '¿Símbolo de Hierro?', 'opciones': ['Au', 'Fe', 'Ag', 'Pb']},
-            {'id': 3, 'texto': '¿Quién pintó la Mona Lisa?', 'opciones': ['Miguel Ángel', 'Rafael', 'Da Vinci', 'Picasso']},
-        ]
+        # Preguntas para que la ruta /jugar funcione
+        preguntas_reales = generar_preguntas_aleatorias(
+            nro_preguntas=nro_preguntas, 
+            categoria_id=categoria_id, 
+            dificultad_id=dificultad_id
+        )
         
-        # Guardar el estado inicial de la Partida en la sesión
+        #Guarda el estado inicial de la Partida en la sesión
         session['partida_activa'] = {
             'jugador_id': session['jugador_id'],
-            'preguntas': preguntas_simuladas,
-            'total_preguntas': nro_preguntas,
+            'preguntas': preguntas_reales,
+            'total_preguntas': len(preguntas_reales),
             'pregunta_actual_idx': 0,
             'puntaje': 0
         }
         
+             
         return redirect(url_for('main.jugar'))
 
     return render_template('menu.html', categorias=categorias, dificultades=dificultades)
