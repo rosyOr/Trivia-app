@@ -3,18 +3,25 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
-DB_PASSWORD = os.getenv("DB_PASS")
-DB_NAME = "trivia_db" 
+# Carga las variables de entorno del archivo .env (si existe)
+load_dotenv() 
 
 class Config:
-    # Clave secreta de Flask (necesaria para las sesiones)
-    SECRET_KEY = os.getenv('SECRET_KEY', 'una-clave-secreta-de-dev')
+    # ----------------------------------------------------------------------
+    # Configuraciones Generales
+    # ----------------------------------------------------------------------
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'una-clave-secreta-muy-dificil'
+    DEBUG = True 
     
-    # Configuración de la Base de Datos (DB)
-    SQLALCHEMY_DATABASE_URI = f'mysql+mysqlconnector://root:{DB_PASSWORD}@localhost:3306/{DB_NAME}'
+    # ----------------------------------------------------------------------
+    # Configuraciones de la Base de Datos (SQLAlchemy)
+    # ----------------------------------------------------------------------
     
+    # ¡CONEXIÓN DIRECTA! Esto elimina el riesgo de variables no definidas.
+    # Usuario: root, Contraseña: Administrador-1, Nombre de DB: trivia
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'mysql+pymysql://root:Administrador-1@localhost/trivia' 
+            
     # Deshabilita una advertencia de SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     

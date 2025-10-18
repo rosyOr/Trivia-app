@@ -1,35 +1,34 @@
-# app/__init__.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import os
+# Importamos el módulo de configuración de la raíz para acceder a la clase Config
+import config 
 
-# Inicializa SQLAlchemy (la librería que maneja la DB)
-db = SQLAlchemy()
+from .extensions import db, migrate, init_cors 
+
+# Importamos los Blueprints (rutas) directamente desde routers.py
+from .routers import admin_bp 
+from .routers import main_bp 
 
 def create_app():
-    # Crea una instancia de la aplicación Flask
+    # Inicialización de la aplicación Flask
     app = Flask(__name__)
     
-    # Carga la configuración desde el archivo config.py (donde está la cadena de la DB)
-    app.config.from_pyfile(os.path.join(os.path.dirname(__file__), '..', 'config.py'))
+    # FORZAR LECTURA DE LA CONFIGURACIÓN
+    # Leemos la configuración del módulo 'config' de la raíz
+    app.config.from_object(config.Config) 
     
-    # Inicializa la base de datos con la app Flask
-    db.init_app(app)
-    
-    # Importar y registrar los Modelos (Objetos de la DB)
-    from . import models  
-    
-    # Importar y registrar las Rutas (Controller - la lógica)
-    from .routes import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-    
-    # Importar utilidades y crear las tablas
-    from .utils import obtener_preguntas_dummy 
-    
-    with app.app_context():
-        # Crea todas las tablas definidas en models.py
-        db.create_all() 
-        # Carga las preguntas de prueba en la DB 
-        obtener_preguntas_dummy() 
+    # INICIALIZAR LA BASE DE DATOS y otras extensiones
+    db.init_app(app) 
+    migrate.init_app(app, db)
+    init_cors(app) 
 
+    # REGISTRO DE BLUEPRINTS (Rutas de la aplicación)
+    # Registramos las rutas de la sección administrativa y la principal
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(main_bp)
+    
+    # Comando de salud simple
+    @app.route("/health")
+    def health():
+        return {"status": "ok"}
+    
     return app

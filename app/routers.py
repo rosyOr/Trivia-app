@@ -1,151 +1,36 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-import datetime
-import os
-import random
+from flask import Blueprint, render_template
+from .extensions import db
+from .models import User 
 
-# ----------------------------------------------------
-# Nota: Usamos TRY/EXCEPT para importar modelos.
-# ----------------------------------------------------
-try:
-    from . import db
-    # Modelos a usar (las 8 tablas que hizo tu compañero)
-    from .models import Jugador, Partida, Pregunta, Categoria, Dificultad 
-    from .utils import obtener_imagen_de_api, generar_preguntas_aleatorias
-except ImportError:
-    # SIMULACIÓN si la Base de Datos no está lista
-    db = None 
-    class Jugador:
-        def __init__(self, alias): self.alias = alias
-    class Partida: pass
-    class Categoria: pass
-    class Dificultad: pass
+# Definición de Blueprints
+# Blueprint de la ruta principal (sin prefijo)
+main_bp = Blueprint('main', __name__) 
 
-# ----------------------------------------------------
-# CREACIÓN DEL BLUEPRINT (Módulo Principal)
-# ----------------------------------------------------
-main = Blueprint('main', __name__)
+# Blueprint de la ruta de administración (con prefijo /admin)
+admin_bp = Blueprint('admin', __name__) 
 
 
-# ----------------------------------------------------
-# RUTA DE INICIO (/) - Conecta con inicio.html
-# ----------------------------------------------------
-@main.route('/', methods=['GET', 'POST'])
-def inicio():
-    """
-    Ruta para ingresar el alias del jugador y guardarlo en la sesión (RF-01).
-    """
-    if request.method == 'POST':
-        alias = request.form.get('alias').strip()
-        
-        if not alias:
-            return render_template('inicio.html', error="El alias no puede estar vacío.")
+# ----------------------------------------------------------------------
+# Rutas Principales (main_bp)
+# ----------------------------------------------------------------------
 
-        # Si el jugador ya existe, lo carga; si no, lo crea.
-        jugador = Jugador.query.filter_by(alias=alias).first()
-        
-        if not jugador:
-            # Crea el nuevo jugador si no existe.
-            jugador = Jugador(alias=alias, fecha_alta=datetime.datetime.now())
-            db.session.add(jugador)
-            db.session.commit()  
-                      
-        session['alias'] = alias
-        session['jugador_id'] = jugador_id
-        
-        # Después de guardar el alias, redirige a /menu
-        return redirect(url_for('main.menu'))
-    
-    # Si es GET, muestra el formulario de inicio
-    return render_template('inicio.html')
+@main_bp.route('/')
+def index():
+    # Intenta obtener todos los usuarios, esto forzará la conexión a la DB
+    try:
+        # Esto intenta ejecutar una consulta: SELECT * FROM user
+        usuarios = User.query.all()
+        # Si funciona, renderiza el template base.html.
+        return render_template('base.html', usuarios=usuarios)
+    except Exception as e:
+        # muestra el error en la pantalla.
+        return f"Error CRÍTICO al conectar o leer la base de datos: {e}", 500
 
 
-# ----------------------------------------------------
-# RUTA DEL MENÚ DE CONFIGURACIÓN (/menu) - Conecta con menu.html
-# ----------------------------------------------------
-@main.route('/menu', methods=['GET', 'POST'])
-def menu():
-    """
-    Ruta para que el jugador configure la partida.
-    """
-    if 'alias' not in session:
-        return redirect(url_for('main.inicio'))
+# ----------------------------------------------------------------------
+# Rutas de Administración (admin_bp)
+# ----------------------------------------------------------------------
 
-  #Llamadas a la base de datos
-    categorias = Categoria.query.all()
-    dificultades = Dificultad.query.all()
- 
-    if request.method == 'POST':
-        categoria_id = request.form.get('categoria_id')
-        dificultad_id = request.form.get('dificultad_id')
-        nro_preguntas = int(request.form.get('nro_preguntas', 5))
-        
-        # Preguntas para que la ruta /jugar funcione
-        preguntas_reales = generar_preguntas_aleatorias(
-            nro_preguntas=nro_preguntas, 
-            categoria_id=categoria_id, 
-            dificultad_id=dificultad_id
-        )
-        
-        #Guarda el estado inicial de la Partida en la sesión
-        session['partida_activa'] = {
-            'jugador_id': session['jugador_id'],
-            'preguntas': preguntas_reales,
-            'total_preguntas': len(preguntas_reales),
-            'pregunta_actual_idx': 0,
-            'puntaje': 0
-        }
-        
-             
-        return redirect(url_for('main.jugar'))
-
-    return render_template('menu.html', categorias=categorias, dificultades=dificultades)
-
-
-# ----------------------------------------------------
-# RUTA DEL JUEGO (/jugar)
-# ----------------------------------------------------
-@main.route('/jugar', methods=['GET', 'POST'])
-def jugar():
-    """
-    Maneja la lógica principal del juego y procesa respuestas.
-    """
-    if 'alias' not in session or 'partida_activa' not in session:
-        return redirect(url_for('main.menu'))
-
-    partida_activa = session['partida_activa']
-    preguntas_partida = partida_activa['preguntas']
-    pregunta_actual_idx = partida_activa['pregunta_actual_idx']
-
-    if request.method == 'POST':
-        # Simular avance a la siguiente pregunta
-        pregunta_actual_idx += 1
-        partida_activa['pregunta_actual_idx'] = pregunta_actual_idx
-        session['partida_activa'] = partida_activa 
-        
-        return redirect(url_for('main.jugar'))
-
-    # Verificar si el juego terminó
-    if pregunta_actual_idx >= len(preguntas_partida):
-        return redirect(url_for('main.ranking')) 
-    
-    # Mostrar la pregunta
-    pregunta_actual_data = preguntas_partida[pregunta_actual_idx]
-    
-    return render_template('jugar.html', 
-                           pregunta=pregunta_actual_data, 
-                           nro_pregunta=pregunta_actual_idx + 1, 
-                           total_preguntas=len(preguntas_partida))
-
-# ----------------------------------------------------
-# RUTA DE RANKING Y RESULTADOS (/ranking) - Placeholder
-# ----------------------------------------------------
-@main.route('/ranking')
-def ranking():
-    """
-    Muestra los resultados de la partida y el ranking global (RF-05).
-    """
-    if 'alias' not in session:
-        return redirect(url_for('main.inicio'))
-        
-    # vista ranking.html
-    return render_template('ranking.html')
+@admin_bp.route('/admin')
+def admin_index():
+    return "Página de administración. Conexión de código exitosa."
