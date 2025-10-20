@@ -1,34 +1,26 @@
 from flask import Flask
-# Importamos el módulo de configuración de la raíz para acceder a la clase Config
-import config 
-
-from .extensions import db, migrate, init_cors 
-
-# Importamos los Blueprints (rutas) directamente desde routers.py
-from .routers import admin_bp 
-from .routers import main_bp 
+from .extensions import db, migrate, init_cors
+from config import Config
 
 def create_app():
-    # Inicialización de la aplicación Flask
     app = Flask(__name__)
-    
-    # FORZAR LECTURA DE LA CONFIGURACIÓN
-    # Leemos la configuración del módulo 'config' de la raíz
-    app.config.from_object(config.Config) 
-    
-    # INICIALIZAR LA BASE DE DATOS y otras extensiones
-    db.init_app(app) 
-    migrate.init_app(app, db)
-    init_cors(app) 
+    app.config.from_object(Config)
 
-    # REGISTRO DE BLUEPRINTS (Rutas de la aplicación)
-    # Registramos las rutas de la sección administrativa y la principal
-    app.register_blueprint(admin_bp, url_prefix='/admin')
-    app.register_blueprint(main_bp)
-    
-    # Comando de salud simple
-    @app.route("/health")
+    db.init_app(app)
+    migrate.init_app(app, db)
+    init_cors(app)
+
+    # Blueprints
+    from .controllers.admin_bp import admin_bp
+    app.register_blueprint(admin_bp, url_prefix="/admin")
+
+    @app.get("/health")
     def health():
         return {"status": "ok"}
-    
+
+    from .cli import seed_command
+    from .cli import import_opentdb_cmd
+    app.cli.add_command(seed_command)
+    app.cli.add_command(import_opentdb_cmd)
+
     return app
