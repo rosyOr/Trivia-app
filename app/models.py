@@ -1,19 +1,13 @@
-from .extensions import db
-from datetime import datetime
+# ----------------------------------------------------------------------
+# IMPORTACIÓN DE MODELOS
+# Estos imports aseguran que Flask-SQLAlchemy conozca todas las clases
+# para poder crear las tablas en la base de datos.
+# ----------------------------------------------------------------------
 
-# Definición básica del modelo de usuario
-class User(db.Model):
-    __tablename__ = 'user' # Nombre de la tabla en MySQL
-
-    # Campos mínimos para que la aplicación no falle al iniciar
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
-    
-    # Campo extra que es común
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f'<User {self.username}>'
+from .models.categoria import Categoria
+from .models.dificultad import Dificultad
+from .models.imagen import Imagen
+from .models.pregunta import Pregunta
+from .models.opcion_respuesta import OpcionRespuesta
+from .models.proveedor_api import ProveedorApi
 

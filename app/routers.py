@@ -1,14 +1,11 @@
 from flask import Blueprint, render_template
-from .extensions import db
-from .models import User 
 
 # Definición de Blueprints
 # Blueprint de la ruta principal (sin prefijo)
 main_bp = Blueprint('main', __name__) 
 
 # Blueprint de la ruta de administración (con prefijo /admin)
-admin_bp = Blueprint('admin', __name__) 
-
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin') 
 
 # ----------------------------------------------------------------------
 # Rutas Principales (main_bp)
@@ -16,21 +13,15 @@ admin_bp = Blueprint('admin', __name__)
 
 @main_bp.route('/')
 def index():
-    # Intenta obtener todos los usuarios, esto forzará la conexión a la DB
-    try:
-        # Esto intenta ejecutar una consulta: SELECT * FROM user
-        usuarios = User.query.all()
-        # Si funciona, renderiza el template base.html.
-        return render_template('base.html', usuarios=usuarios)
-    except Exception as e:
-        # muestra el error en la pantalla.
-        return f"Error CRÍTICO al conectar o leer la base de datos: {e}", 500
-
+    # Ahora renderizamos el contenido real de la página de inicio (home.html)
+    # Este archivo usa 'base.html' como su esqueleto.
+    return render_template('home.html')
 
 # ----------------------------------------------------------------------
 # Rutas de Administración (admin_bp)
 # ----------------------------------------------------------------------
 
-@admin_bp.route('/admin')
+@admin_bp.route('/') # La ruta completa será /admin
 def admin_index():
     return "Página de administración. Conexión de código exitosa."
+

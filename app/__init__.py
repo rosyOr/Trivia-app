@@ -1,26 +1,35 @@
 from flask import Flask
-from .extensions import db, migrate, init_cors
-from config import Config
+from .extensions import db
 
 def create_app():
+    # Inicialización de la aplicación Flask
     app = Flask(__name__)
-    app.config.from_object(Config)
+    
+    # --- CONFIGURACIÓN DE LA APLICACIÓN ---
+    
+    # Cargar la configuración desde el archivo config.py
+    app.config.from_object('config.Config')
 
+    # --- INICIALIZACIÓN DE EXTENSIONES ---
+    
+    # Inicializar la base de datos (SQLAlchemy)
     db.init_app(app)
-    migrate.init_app(app, db)
-    init_cors(app)
 
-    # Blueprints
-    from .controllers.admin_bp import admin_bp
-    app.register_blueprint(admin_bp, url_prefix="/admin")
+    # --- REGISTRO DE BLUEPRINTS (RUTAS) ---
+    
+    # Importar los Blueprints de las rutas (main_bp y admin_bp)
+    from .routers import main_bp, admin_bp
+    
+    # Registrar el Blueprint principal (la página de inicio)
+    app.register_blueprint(main_bp)
 
-    @app.get("/health")
-    def health():
-        return {"status": "ok"}
+    # Registrar el Blueprint de administración
+    app.register_blueprint(admin_bp)
 
-    from .cli import seed_command
-    from .cli import import_opentdb_cmd
-    app.cli.add_command(seed_command)
-    app.cli.add_command(import_opentdb_cmd)
+    # El punto de importación final de modelos es necesario para que db.create_all() funcione
+    with app.app_context():
+        
+        from . import models 
 
     return app
+
