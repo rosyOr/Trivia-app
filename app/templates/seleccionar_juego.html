@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Seleccionar Partida{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4 text-primary">Configuración de la Partida</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg p-4">
+            <h5 class="card-title text-center mb-4">Elige tus Opciones de Juego</h5>
+            
+          <form action="#" method="POST">
+                
+                <div class="mb-4">
+                    <label for="categoria_id" class="form-label fw-bold">1. Selecciona la Categoría:</label>
+                    <select class="form-select" id="categoria_id" name="categoria_id" required>
+                        {% if categorias %}
+                            <option value="">-- Elige una Categoría --</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="">No hay categorías disponibles (Cargar datos)</option>
+                        {% endif %}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="dificultad_id" class="form-label fw-bold">2. Selecciona la Dificultad:</label>
+                    <select class="form-select" id="dificultad_id" name="dificultad_id" required>
+                        {% if dificultades %}
+                            <option value="">-- Elige una Dificultad --</option>
+                            {% for dificultad in dificultades %}
+                                <option value="{{ dificultad.id }}">{{ dificultad.nombre }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="">No hay dificultades disponibles (Cargar datos)</option>
+                        {% endif %}
+                    </select>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="fas fa-play"></i> Iniciar Trivia
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        {% if not categorias or not dificultades %}
+        <div class="alert alert-warning text-center mt-4" role="alert">
+            🚨 **Advertencia:** Para que el juego funcione,  se debe cargar datos en las tablas de Categoría y Dificultad en la base de datos.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts_extra %}
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}
+

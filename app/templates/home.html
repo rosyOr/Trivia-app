@@ -3,30 +3,36 @@
 {% block title %}Inicio - Trivia Flask{% endblock %}
 
 {% block content %}
-<div class="text-center py-5">
-    <h2 class="display-4 text-primary mb-4">¡Juego de Trivia Listo!</h2>
+<div class="text-center mt-5">
+    <h1 class="display-4 text-primary fw-bold">
+        <span role="img" aria-label="cerebro">🧠</span> Trivia-App Flask <span role="img" aria-label="cohete">🚀</span>
+    </h1>
+    <h2 class="mt-4 mb-5 text-secondary">
+        ¡Juego de Trivia Listo!
+    </h2>
     <p class="lead">La aplicación está lista para la acción.</p>
 
-    <div class="mt-5">
-        <!-- Botón principal para iniciar el juego -->
-        <a href="#" class="btn btn-success btn-lg mx-2 shadow-sm">
-            <i class="fas fa-play"></i> Iniciar Partida
-        </a>
-        <!-- Botón secundario para ver categorías (futura ruta) -->
-        <a href="#" class="btn btn-secondary btn-lg mx-2 shadow-sm">
-            <i class="fas fa-list"></i> Ver Categorías
-        </a>
-    </div>
+   <!-- BLOQUE DE BOTONES -->
+    <div class="row justify-content-center mt-5">
+        
+        <div class="col-6 col-md-4 mb-3 d-grid mx-auto">
+            <a href="{{ url_for('main.seleccionar_juego') }}" class="btn btn-success btn-lg shadow-sm w-100">
+                Iniciar Partida
+            </a>
+        </div>
 
-    <!-- Mensaje de confirmación del estado del sistema -->
-    <div class="alert alert-info mt-5 p-3" role="alert">
-        <h5 class="alert-heading">Estado del Sistema: OK</h5>
+        <div class="col-6 col-md-4 mb-3 d-grid mx-auto">
+            <a href="{{ url_for('main.seleccionar_juego') }}" class="btn btn-secondary btn-lg shadow-sm w-100">
+                Ver Categorías
+            </a>
+        </div>
+    </div>
+    
+
+    <!-- Estado del Sistema -->
+    <div class="mt-5 p-3 mx-auto alert alert-info shadow-sm" style="max-width: 400px;">
+        <h4 class="alert-heading">Estado del Sistema: OK</h4>
         <p class="mb-0">podemos empezar a programar la lógica!!!</p>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts_extra %}
-<!-- Agregamos Font Awesome para los íconos (play, list) -->
-<script src="https://kit.fontawesome.com/c6c18097b6.js" crossorigin="anonymous"></script>
 {% endblock %}
