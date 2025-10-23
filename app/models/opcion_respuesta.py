@@ -3,7 +3,7 @@ from app.extensions import db
 class OpcionRespuesta(db.Model):
     __tablename__ = "opcion_respuesta"
     __table_args__ = (
-        # Opcional pero recomendado: evita duplicar el mismo texto de opción para la misma pregunta
+        # evita duplicar el mismo texto de opción para la misma pregunta
         db.UniqueConstraint("pregunta_id", "texto", name="uq_opcion_texto"),
     )
 
@@ -17,3 +17,4 @@ class OpcionRespuesta(db.Model):
 
     def __repr__(self):
         return f"<Opcion {self.opcion_id} correcta={self.es_correcta}>"
+
