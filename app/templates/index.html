@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <link rel="icon" href="{{ url_for('static', filename='img/palanca-de-mando.png') }}" type="image/png">
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inicio</title>
+        <!-- === Fuentes === -->
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- === Css === -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+
+        <!-- === Librerias === -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    </head>
+
+<body>
+
+<main class="inicio">
+    <video aria-hidden="true" autoplay muted loop playsinline 
+           class="video-inicio" 
+           src="{{ url_for('static', filename='img/video.mp4') }}" 
+           tabindex="-1"></video>
+
+    <div class="content-inicio">
+        <h1>TRIVIADOR</h1>
+        <p>¡BIENVENIDO A NUESTRO JUEGO DE TRIVIA! <br>INGRESA YA</p>
+
+        <div class="botones-inicio">
+           <a id="btn-ingresar" href="#" class="btn-inicio hvr-grow" aria-label="Ir al menú principal" title="Ir al menú principal">Ingresar</a>
+
+        </div>
+    </div>
+</main>
+   <!-- === script para hacer la animacion, impide que al hacer click, cambie de página y espere a que termine la animación=== -->
+
+<script>
+
+document.getElementById('btn-ingresar').addEventListener('click', function(event) {
+    event.preventDefault();
+    const main = document.querySelector('.inicio');
+    
+    //Animacion
+    main.classList.add('fade-out');
+
+    setTimeout(() => {
+        window.location.href = "{{ url_for('menu') }}";
+    }, 1000);
+});
+</script>
+</body>
+</html>

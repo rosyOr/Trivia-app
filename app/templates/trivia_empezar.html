@@ -1,0 +1,77 @@
+<!-- templates/trivia_start.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/trivia_start.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/empezar.css') }}">
+</head>
+<body>
+<main class="trivia-empezar">
+    <div class="container">
+      <!-- mensaje de no hay preguntas disponibles -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="popup-overlay">
+        <div class="popup-message">
+        {% for category, message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+        <button onclick="closePopup()">Aceptar</button>
+        </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+       
+        <h1>TRIVIADOR</h1>
+
+
+        <p>SELECCIONA LA DIFICULTAD Y CATEGORIAS</p>
+
+        <form action="{{ url_for('trivia_bp.empezar') }}" method="POST">
+            <!-- === Dificultad === -->
+            <div class="dificultad-section">
+                <h2>Dificultad</h2>
+                {% for dif in dificultades %}
+                    <label class="radio-label">
+                        <input type="radio" name="dificultad_id" value="{{ dif.dificultad_id }}"
+                        {% if loop.first %} checked {% endif %}>
+                        {{ dif.nombre }}
+                    </label>
+                {% endfor %}
+            </div>
+
+            <!-- === Categorías === -->
+            <div class="categorias-section">
+               
+                <h2>CATEGORIAS</h2>
+                <p class="info">Si no se selecciona ninguna, saldrán preguntas de todas las categorias</p>
+                {% for cat in categorias %}
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="categorias" value="{{ cat.categoria_id }}">
+                        {{ cat.nombre }}
+                    </label>
+                {% endfor %}
+                
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn-start">Comenzar</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+function closePopup() {
+  document.querySelector('.popup-overlay').style.display = 'none';
+}
+</script>
+
+
+</body>
+</html>

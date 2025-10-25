@@ -1,0 +1,137 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #0b0320;
+    color: #f3e8ff;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 2rem;
+}
+
+p{
+    text-align: center;
+    font-size: 1rem;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(25, 0, 99, 0.8);
+    border-radius: 10px;
+}
+
+.dificultad-section, .categorias-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #0a0a41;
+    border: solid 1px;
+}
+
+.radio-label, .checkbox-label {
+    
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.radio-label input, .checkbox-label input {
+    margin-right: 0.5rem;
+}
+
+.info {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 0.5rem;
+    text-align: left;
+}
+
+.btn-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-start {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    color: #1b1b2f;
+    background: #f3e8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-start:hover {
+    background: #fff;
+    transform: scale(1.05);
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 3, 32, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* cartel de error */
+.popup-message {
+  background: linear-gradient(135deg, #3a0ca3, #7209b7);
+  border: 2px solid #f3e8ff;
+  color: #f3e8ff;
+  padding: 30px 40px;
+  border-radius: 20px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  box-shadow: 0 0 20px #7209b7;
+  max-width: 400px;
+  animation: popupShow 0.4s ease;
+}
+
+.popup-message p {
+  margin-bottom: 20px;
+}
+
+.popup-message button {
+  background: #f72585;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #f72585;
+  transition: all 0.2s ease;
+}
+
+.popup-message button:hover {
+  background: #ff4081;
+  box-shadow: 0 0 15px #ff4081;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupShow {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

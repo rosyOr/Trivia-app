@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - TRIVIADOR</title>
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- Animate y hover.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" crossorigin="anonymous">
+
+</head>
+<body>
+        <!-- iconos animados-->
+    <div class="menu-container">
+            <div class="dibujos-titulo">
+            <div class="iframe-box azul">
+                <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <div class="iframe-box verde">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <div class="iframe-box rojo">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+            <div class="iframe-box violeta">
+                <i class="fa-solid fa-palette"></i>
+            </div>
+    </div>  
+      
+        <h1>TRIVIADOR</h1>
+        <div class="menu-buttons">
+            <form action="{{ url_for('trivia_bp.empezar') }}">
+                <button type="submit">Jugar</button>
+            </form>
+            <form action="/">
+                <button type="submit">Información</button>
+            </form>
+            <form action="/">
+                <button type="submit">Ranking</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
