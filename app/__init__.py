@@ -1,5 +1,6 @@
 from flask import Flask
-from .extensions import db
+from .extensions import db, migrate,init_cors
+from config import Config
 
 def create_app():
     # Inicialización de la aplicación Flask
@@ -30,7 +31,7 @@ def create_app():
     app.register_blueprint(admin_bp)
 
     # El punto de importación final de modelos es necesario para que db.create_all() funcione
-        @app.get("/health")
+    @app.get("/health")
     def health():
         return {"status": "ok"}
     
