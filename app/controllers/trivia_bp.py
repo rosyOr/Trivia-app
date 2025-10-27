@@ -2,7 +2,9 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from app.models import Pregunta, OpcionRespuesta, Categoria, Dificultad, Partida, Jugador, db
 from datetime import datetime
+from app.services.imagen import obtener_imagen
 import random
+from sqlalchemy import text
 
 trivia_bp = Blueprint("trivia_bp", __name__)
 
@@ -99,6 +101,12 @@ def trivia():
         session["indice_actual"] = indice + 1
         return redirect(url_for("trivia_bp.trivia"))
 
+    # uso de la api de imagen unplash, busca imagen y como palabra clave para buscar, usa las opciones, 
+    palabra_clave = " ".join([o.texto for o in opciones])
+    imagen_url = obtener_imagen(palabra_clave)
+    # si no encuentra, busca por categoria de la pregunta
+    if not imagen_url:
+        imagen_url = obtener_imagen(pregunta.categoria.nombre)
 
     return render_template(
         "trivia.html",
@@ -106,7 +114,8 @@ def trivia():
         opciones=opciones,
         numero=indice + 1,
         total=len(preguntas_ids),
-        tiempo_total=tiempo_restante
+        tiempo_total=tiempo_restante,
+        imagen_url=imagen_url
     )
 
 
@@ -157,34 +166,58 @@ def fin_partida():
     score = session.get("score", 0)
     preguntas_ids = session.get("preguntas_ids", [])
 
+    error = None
+
     if request.method == "POST":
-        alias = request.form.get("alias", "Anónimo")
-        jugador = Jugador.query.filter_by(alias=alias).first()
-        if not jugador:
+        alias = request.form.get("alias", "").strip()
+        if not alias:
+            error = "Debes ingresar un alias"
+        elif Jugador.query.filter_by(alias=alias).first():
+            error = "El alias ya existe, usa otro"
+        else:
+            # guarda datos jugador
             jugador = Jugador(alias=alias)
             db.session.add(jugador)
             db.session.commit()
 
-        # guarda la partida
-        partida = Partida(
-            jugador_id=jugador.jugador_id,
-            fecha_inicio=datetime.utcnow(),
-            fecha_fin=datetime.utcnow(),
-            dificultad_id=session.get("dificultad_id"),
-            puntaje_total=score,
-            num_preguntas=len(preguntas_ids),
-        )
-        db.session.add(partida)
-        db.session.commit()
+            # guarda la partida/score/fecha
+            partida = Partida(
+                jugador_id=jugador.jugador_id,
+                fecha_inicio=datetime.utcnow(),
+                fecha_fin=datetime.utcnow(),
+                dificultad_id=session.get("dificultad_id"),
+                puntaje_total=score,
+                num_preguntas=len(preguntas_ids),
+            )
+            db.session.add(partida)
+            db.session.commit()
 
-        # borra la sesión para empezar otro juego (te vuelve a mandar a la pagina de configuracion)
-        session.pop("preguntas_ids", None)
-        session.pop("indice_actual", None)
-        session.pop("score", None)
-        session.pop("dificultad_id", None)
-        session.pop("categoria_ids", None)
-        session.pop("start_time", None)
+            # limpia la sesión
+            for k in ["preguntas_ids", "indice_actual", "score", 
+                      "dificultad_id", "categoria_ids", "start_time"]:
+                session.pop(k, None)
 
-        return redirect(url_for("trivia_bp.empezar"))
+            return redirect(url_for("trivia_bp.empezar"))
 
-    return render_template("fin_partida.html", score=score)
+    return render_template("fin_partida.html", score=score, error=error)
+
+
+
+@trivia_bp.route("/ranking")
+def ranking():
+    # Consulta los 10 mejores usando la vista
+    top10 = db.session.execute(text("SELECT * FROM vw_ranking_top10")).fetchall()
+    return render_template("ranking.html", top10=top10)
+
+#crear en la bd para guardar la fecha
+#CREATE OR REPLACE VIEW vw_ranking_top10 AS
+#SELECT
+#  j.alias,
+# MAX(p.puntaje_total) AS mejor_puntaje_partida,
+#MAX(p.fecha_fin) AS fecha_record
+#FROM partida p
+#JOIN jugador j ON j.jugador_id = p.jugador_id
+#WHERE p.fecha_fin IS NOT NULL
+#GROUP BY j.alias
+#ORDER BY mejor_puntaje_partida DESC
+#LIMIT 10;

@@ -1,6 +1,11 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from app import create_app
 from app.cli import import_opentdb_cmd
 from flask import Blueprint, render_template
+from app.extensions import db
 
 
 

@@ -37,10 +37,9 @@
           </div>
         </div>
       </div>
-      <!--      {% if pregunta.imagen %}
-        <img class="question-image" src="{{ url_for('static', filename='uploads/' + pregunta.imagen.alt_text) }}" alt="{{ pregunta.imagen.alt_text }}">
-      {% endif %}  -->
-
+{% if imagen_url %}
+  <img class="question-image" src="{{ imagen_url }}" alt="Imagen relacionada con la pregunta">
+{% endif %}
         <!-- respuestas -->
     <div class="options" id="options">
   <form id="answerForm" method="POST" action="{{ url_for('trivia_bp.responder') }}">
