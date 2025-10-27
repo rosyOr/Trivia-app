@@ -19,25 +19,11 @@ def menu():
     return render_template("menu.html")
 
 
+@app.route("/info")
+def info():
+    return render_template("información.html")
 
 
-
-
-
-
-#@app.route("/results")
-#def results():
-    #return render_template("result.html", score=session["score"])
-
-#@app.route("/ranking")
-#def ranking():
-    # Basado en la vista vw_ranking_top10
-  #  result = db.session.execute("""
-   #    SELECT alias, MAX(puntaje_total) AS mejor_puntaje_partida
-    #    FROM partida JOIN jugador USING(jugador_id)
-     #   GROUP BY alias ORDER BY mejor_puntaje_partida DESC LIMIT 10
-    #""").fetchall()
-    #return render_template("ranking.html", players=result)
 
 
 
