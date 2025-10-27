@@ -1,52 +1,51 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - TRIVIADOR</title>
 
-{% block title %}Menú de Partida{% endblock %}
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-{% block content %}
-<div class="card shadow-sm">
-    <div class="card-body">
-        <h2 class="card-title text-center mb-4">🕹️ Menú de Partida</h2>
-        <p class="text-center lead">Hola, **{{ session['alias'] }}**! Elige la configuración para empezar a jugar.</p>
-        <hr>
-        
-        <form method="POST" action="{{ url_for('main.menu') }}">
-            
-            <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría:</label>
-                <select class="form-select" id="categoria" name="categoria_id" required>
-                    <option value="">Selecciona una Categoría...</option>
-                    {% for categoria in categorias %}
-                        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div class="mb-3">
-                <label for="dificultad" class="form-label">Dificultad:</label>
-                <select class="form-select" id="dificultad" name="dificultad_id" required>
-                    <option value="">Selecciona una Dificultad...</option>
-                    {% for dificultad in dificultades %}
-                        <option value="{{ dificultad.id }}">{{ dificultad.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div class="mb-4">
-                <label for="nro_preguntas" class="form-label">Número de Preguntas:</label>
-                <input type="number" 
-                       class="form-control" 
-                       id="nro_preguntas" 
-                       name="nro_preguntas" 
-                       value="5" 
-                       min="5" 
-                       max="15" 
-                       required>
-            </div>
+    <!-- Animate y hover.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" crossorigin="anonymous">
 
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-success btn-lg">🎮 Iniciar Partida</button>
+</head>
+<body>
+        <!-- iconos animados-->
+    <div class="menu-container">
+            <div class="dibujos-titulo">
+            <div class="iframe-box azul">
+                <i class="fa-solid fa-earth-americas"></i>
             </div>
-        </form>
+            <div class="iframe-box verde">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <div class="iframe-box rojo">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+            <div class="iframe-box violeta">
+                <i class="fa-solid fa-palette"></i>
+            </div>
+    </div>  
+      
+        <h1>TRIVIADOR</h1>
+        <div class="menu-buttons">
+            <form action="{{ url_for('trivia_bp.empezar') }}">
+                <button type="submit">Jugar</button>
+            </form>
+            <form action="{{ url_for('info') }}">
+                <button type="submit">Información</button>
+            </form>
+            <form action="{{ url_for('trivia_bp.ranking') }}">
+                <button type="submit">Ranking</button>
+            </form>
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

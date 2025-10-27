@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin de Partida - TRIVIADOR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fin_partida.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fin.css') }}">
+</head>
+<body>
+        
+<main class="fin-partida">
+    <div class="container">
+        <h1>¡PARTIDA FINALIZADA!</h1>
+        <p>Tu puntaje total es:</p>
+        <div class="score">{{ score }}</div>
+
+        <form action="{{ url_for('trivia_bp.fin_partida') }}" method="POST">
+            <label for="alias">Ingresa tu alias para guardar el récord:</label>
+            <input type="text" name="alias" id="alias" placeholder="Tu alias" required maxlength="50">
+
+            <button type="submit" class="btn-submit">Guardar Récord</button>
+        </form>
+                <!-- === mensaje de error si ya existe el alias ingreado === -->
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+        <div class="btn-container">
+            <a href="{{ url_for('trivia_bp.empezar') }}" class="btn-new">Jugar de Nuevo</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

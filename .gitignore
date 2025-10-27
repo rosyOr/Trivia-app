@@ -1,13 +1,20 @@
-
-# Archivos y Carpetas de Entornos Virtuales
+# Entorno virtual
+env/
 venv/
+
+# Archivos de Python
+__pycache__/
 *.pyc
 
-# Archivos de Credenciales y Secretos
+# Configuraciones y claves
 .env
+instance/
 
-# Archivos temporales de VS Code
-.vscode/
-
-# Archivos de la base de datos local (si usáramos SQLite)
+# Archivos de base de datos local
+*.sqlite3
 *.db
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+g

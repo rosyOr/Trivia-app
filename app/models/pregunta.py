@@ -5,10 +5,10 @@ class Pregunta(db.Model):
 
     pregunta_id      = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
 
-    # Texto que mostrará el juego (ES).
+    # Texto que mostrará el juego (ES). Por ahora, si aún no traduces, guardamos el EN aquí también.
     enunciado        = db.Column(db.Text, nullable=False)
 
-    # Texto fuente original en inglés (para hashing)
+    # Texto fuente original en inglés (para hashing/idempotencia de ingesta)
     enunciado_src_en = db.Column(db.Text, nullable=True)
 
     # Columna generada por MySQL (STORED): SHA2(enunciado_src_en, 256) → 64 hex chars
@@ -38,4 +38,3 @@ class Pregunta(db.Model):
 
     def __repr__(self):
         return f"<Pregunta {self.pregunta_id}>"
-

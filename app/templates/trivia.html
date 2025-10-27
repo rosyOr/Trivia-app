@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pregunta {{ numero }} / {{ total }} — TRIVIADOR</title>
+
+  <!-- fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/trivia.css') }}">
+  
+
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">TRIVIADOR</div>
+        <!-- información de progreso de la sesion  -->
+      <div class="progress-info">
+        <div class="q-number">Pregunta {{ numero }} / {{ total }}</div>
+        <div class="score-box">Puntaje: <span id="score">{{ session.get('score', 0) }}</span></div>
+      </div>
+    </div>
+  <!--Pregunta-->
+    <section class="qcard" aria-live="polite">
+      <div class="question-header">
+        <div style="flex:1;">
+          <div class="question-text">{{ pregunta.enunciado|safe }}</div>
+        </div>
+        <div style="width:260px; text-align:right;">
+            <!-- timer -->
+          <div class="timer-wrap" aria-hidden="true">
+            <div class="timer-bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ tiempo_total }}" aria-valuenow="{{ tiempo_total }}">
+              <div id="timer-fill" class="timer-fill" style="width:100%"></div>
+            </div>
+            <div id="timer-seconds" class="timer-seconds">{{ tiempo_total }}s</div>
+          </div>
+        </div>
+      </div>
+{% if imagen_url %}
+  <img class="question-image" src="{{ imagen_url }}" alt="Imagen relacionada con la pregunta">
+{% endif %}
+        <!-- respuestas -->
+    <div class="options" id="options">
+  <form id="answerForm" method="POST" action="{{ url_for('trivia_bp.responder') }}">
+    <input type="hidden" name="opcion_id" id="opcion_id" value="">
+    <input type="hidden" name="tiempo_total" value="{{ tiempo_total }}">
+    <input type="hidden" name="tiempo_restante" id="tiempo_restante" value="{{ tiempo_total }}">
+        <!-- guarda el estado de la opcion, si es correcta o no para poder darle un color -->
+    {% for opt in opciones %}
+      <button type="button"
+              class="opt-btn"
+              data-opid="{{ opt.opcion_id }}"
+              data-correcta="{{ 'True' if opt.es_correcta else 'False' }}">
+          {{ opt.texto|safe }}
+      </button>
+    {% endfor %}
+  </form>
+</div>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/trivia.js') }}"></script>
+</body>
+</html>

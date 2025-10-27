@@ -1,22 +1,38 @@
-from dotenv import load_dotenv
-load_dotenv() # Carga las variables del archivo .env al inicio
-
 import os
-from app import create_app, db
-# Importamos modelos para que db.create_all() los detecte
-from app import models
+from dotenv import load_dotenv
+load_dotenv()
 
-# Aseguramos importar los routers o blueprints si fuera necesario
+from app import create_app
+from app.cli import import_opentdb_cmd
+from flask import Blueprint, render_template
+from app.extensions import db
 
-# from app.routers import main_bp # uso si la app usa routers.py
+
+
+trivia_bp = Blueprint("trivia", __name__)
 
 app = create_app()
+app.register_blueprint(trivia_bp, url_prefix="/trivia")
 
-# Asegura que las tablas se creen antes de iniciar el servidor
-with app.app_context():
-    db.create_all()
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-if __name__ == '__main__':
+
+@app.route("/menu")
+def menu():
+    return render_template("menu.html")
+
+
+@app.route("/info")
+def info():
+    return render_template("información.html")
+
+
+
+if __name__ == "__main__":
     app.run(debug=True)
+
+app.cli.add_command(import_opentdb_cmd)
 
 

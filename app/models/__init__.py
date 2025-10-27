@@ -4,4 +4,10 @@ from .pregunta import Pregunta
 from .opcion_respuesta import OpcionRespuesta
 from .proveedor_api import ProveedorApi
 from .imagen import Imagen
-from .usuario import Usuario
+from .jugador import Jugador
+from .partida import Partida
+from .partida_pregunta import PartidaPregunta
+from .respuesta import Respuesta
+
+from app.extensions import db
+

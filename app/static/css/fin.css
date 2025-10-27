@@ -1,0 +1,85 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #0b0320;
+    color: #f3e8ff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: rgba(25, 0, 99, 0.8);
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.score {
+    font-size: 3rem;
+    font-family: 'Press Start 2P', cursive;
+    margin: 1rem 0;
+    color: #ffd700;
+}
+
+form {
+    margin-top: 2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-submit {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    color: #1b1b2f;
+    background: #f3e8ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: #fff;
+    transform: scale(1.05);
+}
+
+.btn-container {
+    margin-top: 2rem;
+}
+
+.btn-new {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Press Start 2P', cursive;
+    color: #1b1b2f;
+    background: #f3e8ff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-new:hover {
+    background: #fff;
+    transform: scale(1.05);
+}

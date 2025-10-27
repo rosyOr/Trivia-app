@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cómo jugar — TRIVIADOR</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/informacion.css') }}">
+  
+
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">TRIVIADOR</div>
+    </div>
+
+    <section class="info-container">
+
+
+      <p>
+        ¡Bienvenido a <strong>TRIVIADOR</strong>! Poné a prueba tu conocimiento con preguntas de diferentes dificultades y categorías.
+        Cada partida cuenta con 10 preguntas seleccionadas al azar dependiendo la configuración elegida. Mientras más rápido contestes, más puntos ganas.
+      </p>
+
+      <h2>Objetivo</h2>
+      <p>Respondé correctamente la mayor cantidad de preguntas posibles antes de que se acabe el tiempo.</p>
+
+      <h2>Tiempo</h2>
+      <p>Cada pregunta tiene un límite de <strong>15 segundos</strong>. Si se acaba el tiempo, pasa a la siguiente pregunta</p>
+
+      <h2>Sistema de Puntuación</h2>
+      <ul>
+        <li><strong>Fácil:</strong> 5 puntos base por respuesta correcta.</li>
+        <li><strong>Media:</strong> 10 puntos base por respuesta correcta.</li>
+        <li><strong>Difícil:</strong> 15 puntos base por respuesta correcta.</li>
+        <li><strong>Bono de velocidad:</strong> +1 punto adicional por cada segundo restante.</li>
+      </ul>
+
+      <p>NOTA: Al final de la partida podés ver tu puntaje total. Podrás poner un Alias y guardar tu record, ¡Puede aparecer en el top 10!</p>
+      <button class="back-btn" onclick="window.location.href='{{ url_for('menu') }}'">Volver al inicio</button>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ranking — TRIVIADOR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ranking.css') }}">
+
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">TRIVIADOR</div>
+    </div>
+
+    <h1>🏆 Ranking Top 10</h1>
+
+    <table class="ranking-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Alias</th>
+          <th>Mejor Puntaje</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+                <!-- lee y pone los datos de los records -->
+            {% for record in top10 %} 
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ record.alias }}</td>
+                <td>{{ record.mejor_puntaje_partida }}</td>
+                <td>{{ record.fecha_record.strftime('%d/%m/%Y %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+      </tbody>
+    </table>
+
+    <button class="back-btn" onclick="window.location.href='{{ url_for('menu') }}'">Volver al inicio</button>
+  </div>
+</body>
+</html>

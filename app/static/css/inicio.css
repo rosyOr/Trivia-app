@@ -1,0 +1,140 @@
+body {
+    background: #0b0320;;
+    font-family: 'Bungee';
+    color: #f3e8ff;
+    overflow-x: hidden;
+    }
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.inicio {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === video fondo === */
+
+.video-inicio{
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.inicio::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: linear-gradient(90deg, rgba(36, 0, 145, 0.6) 16%, rgba(11, 0, 43, 0.6) 100%);
+}
+
+/* === info del inicio === */
+
+.content-inicio{
+    position: relative;
+    text-align: center;
+    z-index: 1;
+    animation: fadeInUp 1.5s ease;
+}
+
+@keyframes fadeInUp {
+0% {opacity: 0; transform: translateY(40px);}
+100% {opacity: 1; transform: translateY(0);}
+}
+
+.content-inicio h1{
+    text-shadow: 5px 5px 1px #06315f;
+    font-size: 4rem;
+    font-family: "Press Start 2P";
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.content-inicio p {
+    font-family: 'Roboto';
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: grey;
+}
+
+/* === contenedor de botones === */
+.botones-inicio {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;           
+    margin-top:5rem;    
+}
+
+/* === botones === */
+.btn-inicio {
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: 2px solid #f3e8ff;
+    color: #f3e8ff;
+    font-family: "Press Start 2P";
+    font-style: italic;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-inicio:hover {
+    background-color: #f3e8ff;
+    color: #1e0033;
+    transform: scale(1.05);
+}
+
+/* === animacion de salidaa=== */
+.fade-out {
+    animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.05);
+        filter: blur(5px);
+    }
+}
+
+
+
+/* === mq === */
+@media (max-width: 768px) {
+    .botones-inicio {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 3rem; 
+    }
+
+    .btn-inicio {
+        width: 80%;
+        margin: 0 auto;
+        font-size: 1rem;
+    }
+}
