@@ -4,6 +4,7 @@ from app.models.categoria import Categoria
 from app.models.dificultad import Dificultad
 from app.models.pregunta import Pregunta
 from app.models.opcion_respuesta import OpcionRespuesta
+from app.services import traduccion_service
 
 OPENTDB_BASE = "https://opentdb.com"
 print(f"Usando OpenTDB API base: {OPENTDB_BASE}")
@@ -73,45 +74,63 @@ def importar_desde_opentdb(amount: int, category_id: int | None, difficulty: str
                 src_en = item["question"]
                 if _exists_pregunta_by_en_hash(src_en):
                     continue  # ya importada
+                
+                # TRADUCIR CATEGORIA
+                # # --------------------------------------------
+                cat_en = item["category"]
+                cat_es = traduccion_service.traducir_texto(cat_en) # <--- AQUI se traduce
 
-                # Upsert cat/dif (en EN por ahora)
-                cat = Categoria.query.filter_by(nombre=item["category"]).first() or Categoria(nombre=item["category"])
+                # Upsert cat/dif (USAMOS LA VERSION TRADUCIDA cat_es)
+                cat = Categoria.query.filter_by(nombre=cat_es).first() or Categoria(nombre=cat_es)
+                # La dificultad ("easy", "medium", "hard") se puede dejar en inglés
                 dif = Dificultad.query.filter_by(nombre=item["difficulty"]).first() or Dificultad(nombre=item["difficulty"])
                 db.session.add(cat); db.session.add(dif); db.session.flush()
 
+                # --------------------------------------------
+                # TRADUCIR PREGUNTA
+                # --------------------------------------------
+                pregunta_es = traduccion_service.traducir_texto(src_en) # <--- AQUI SE TRADUCE
+
                 # Insertar pregunta:
-                # - enunciado (ES) → por ahora guardo el mismo EN (lo actualizas cuando traduzcas)
-                # - enunciado_src_en (EN) → fuente para el hash
                 p = Pregunta(
-                    enunciado=src_en,            # TEMP: aún no traducido
-                    enunciado_src_en=src_en,     # fuente para el hash
+                    enunciado=pregunta_es, # AHORA USAMOS LA TRADUCCIÓN
+                    enunciado_src_en=src_en, # fuente para el hash
                     categoria_id=cat.categoria_id,
                     dificultad_id=dif.dificultad_id,
                     imagen_id=None
                 )
                 db.session.add(p); db.session.flush()
 
-                # Opciones
+                # --------------------------------------------
+                # TRADUCIR OPCIONES DE RESPUESTA
+                # --------------------------------------------
                 if item["type"] == "boolean":
+                # Aquí no traducimos porque True/False ya son comunes
                     corr = item["correct_answer"]
                     for opt in ["True", "False"]:
                         db.session.add(OpcionRespuesta(
-                            pregunta_id=p.pregunta_id,
-                            texto=opt,
-                            es_correcta=(opt == corr)
-                        ))
-                else:
-                    db.session.add(OpcionRespuesta(
                         pregunta_id=p.pregunta_id,
-                        texto=item["correct_answer"],
+                        texto=opt,
+                        es_correcta=(opt == corr)
+                    ))
+                    else:
+                        # Respuesta Correcta
+                        corr_en = item["correct_answer"]
+                        corr_es = traduccion_service.traducir_texto(corr_en) # <--- AQUI SE TRADUCE
+                        db.session.add(OpcionRespuesta(
+                        pregunta_id=p.pregunta_id,
+                        texto=corr_es,
                         es_correcta=True
                     ))
-                    for inc in item["incorrect_answers"]:
+                    # Respuestas Incorrectas
+                    for inc_en in item["incorrect_answers"]:
+                        inc_es = traduccion_service.traducir_texto(inc_en) # <--- AQUI SE TRADUCE
                         db.session.add(OpcionRespuesta(
-                            pregunta_id=p.pregunta_id,
-                            texto=inc,
-                            es_correcta=False
-                        ))
+                        pregunta_id=p.pregunta_id,
+                        texto=inc_es,
+                        es_correcta=False
+                    ))
+
 
             db.session.commit()
             restantes -= len(results)
