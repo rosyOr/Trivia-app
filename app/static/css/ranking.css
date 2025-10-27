@@ -1,0 +1,132 @@
+  :root{
+      --bg1: #060019;
+      --bg2: #0b0320;
+      --accent1: #7b4cff;
+      --accent2: #ff6b6b;
+      --text: #f3e8ff;
+      --muted: #bdb6c5;
+      --card: rgba(25, 0, 99, 0.8);
+    }
+
+    html,body{
+        height:100%; 
+        margin:0; 
+        font-family:'Roboto',sans-serif; 
+        background: var(--bg2);
+        color:var(--text);
+    }
+    
+    
+    .wrap{
+        max-width:980px; 
+        margin:32px auto; 
+        padding:20px; 
+        box-sizing:border-box;
+    }
+ 
+ .brand{
+    text-shadow: 5px 5px 1px #06315f;
+    font-size: 4rem;
+    font-family: "Press Start 2P";
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ .info-container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: rgba(36, 0, 145, 0.85);
+      border-radius: 20px;
+      padding: 30px 40px;
+      color: #f3e8ff;
+      line-height: 1.8;
+      box-shadow: 0 0 15px rgba(120, 0, 255, 0.6);
+    }
+
+    h1, h2 {
+    text-shadow: 5px 5px 1px #06315f;
+    font-size: 1.5rem;
+    font-family: "Press Start 2P";
+    font-style: italic;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    text-align: center;
+    }
+
+    ul {
+      margin: 15px 0 20px 25px;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 40px auto 0;
+      background: linear-gradient(135deg, #3a0ca3, #7209b7);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 12px;
+      font-family: 'Bungee', cursive;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .back-btn:hover {
+      background: #ff3399;
+      transform: scale(1.05);
+    }
+ 
+ 
+ 
+ 
+ 
+ 
+ .ranking-table {
+        width: 100%;
+        max-width: 600px;
+        margin: 40px auto;
+        border-collapse: collapse;
+        background-color: rgba(36,0,145,0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        color: #fff;
+    }
+    .ranking-table th, .ranking-table td {
+        padding: 12px 15px;
+        text-align: center;
+    }
+    .ranking-table th {
+        background-color: rgba(0, 0, 0, 0.6);
+        font-size: 16px;
+    }
+    .ranking-table tr:nth-child(even) {
+        background-color: rgba(0,0,0,0.2);
+    }
+    .ranking-table tr:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+    .back-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+    }
+    .back-btn:hover {
+        background-color: #0056b3;
+    }
+
+
+     

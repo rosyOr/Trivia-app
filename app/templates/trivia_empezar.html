@@ -35,7 +35,7 @@
         <form action="{{ url_for('trivia_bp.empezar') }}" method="POST">
             <!-- === Dificultad === -->
             <div class="dificultad-section">
-                <h2>Dificultad</h2>
+                <h2>DIFICULTAD</h2>
                 {% for dif in dificultades %}
                     <label class="radio-label">
                         <input type="radio" name="dificultad_id" value="{{ dif.dificultad_id }}"
@@ -62,7 +62,9 @@
             <div class="btn-container">
                 <button type="submit" class="btn-start">Comenzar</button>
             </div>
+
         </form>
+          <button class="back-btn" onclick="window.location.href='{{ url_for('menu') }}'">Volver al inicio</button>
     </div>
 </main>
 

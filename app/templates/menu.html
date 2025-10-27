@@ -39,10 +39,10 @@
             <form action="{{ url_for('trivia_bp.empezar') }}">
                 <button type="submit">Jugar</button>
             </form>
-            <form action="/">
+            <form action="{{ url_for('info') }}">
                 <button type="submit">Información</button>
             </form>
-            <form action="/">
+            <form action="{{ url_for('trivia_bp.ranking') }}">
                 <button type="submit">Ranking</button>
             </form>
         </div>

@@ -24,6 +24,7 @@ p{
     padding: 2rem;
     background: rgba(25, 0, 99, 0.8);
     border-radius: 10px;
+    box-shadow: 0 0 15px rgba(120, 0, 255, 0.6);
 }
 
 .dificultad-section, .categorias-section {
@@ -31,7 +32,9 @@ p{
     padding: 2rem;
     background-color: #0a0a41;
     border: solid 1px;
+    
 }
+
 
 .radio-label, .checkbox-label {
     
@@ -73,6 +76,26 @@ p{
     background: #fff;
     transform: scale(1.05);
 }
+
+.back-btn {
+      display: block;
+      margin: 40px auto 0;
+      background: #f3e8ff;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .back-btn:hover {
+    background: #fff;
+    transform: scale(1.05);
+    }
+
+
 
 
 .popup-overlay {

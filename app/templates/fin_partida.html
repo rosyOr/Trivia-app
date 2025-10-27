@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/fin.css') }}">
 </head>
 <body>
+        
 <main class="fin-partida">
     <div class="container">
         <h1>¡PARTIDA FINALIZADA!</h1>
@@ -22,7 +23,10 @@
 
             <button type="submit" class="btn-submit">Guardar Récord</button>
         </form>
-
+                <!-- === mensaje de error si ya existe el alias ingreado === -->
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
         <div class="btn-container">
             <a href="{{ url_for('trivia_bp.empezar') }}" class="btn-new">Jugar de Nuevo</a>
         </div>
