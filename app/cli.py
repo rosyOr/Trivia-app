@@ -1,4 +1,4 @@
-# app/cli.py
+# crea comandos para usar con flask en la terminal
 import click
 from flask.cli import with_appcontext
 

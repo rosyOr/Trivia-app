@@ -8,81 +8,135 @@
       --card: rgba(25, 0, 99, 0.8);
     }
 
-    html,body{
-        height:100%; 
-        margin:0; 
-        font-family:'Roboto',sans-serif; 
-        background: var(--bg2);
-        color:var(--text);
-    }
-    
-    
-    .wrap{
-        max-width:980px; 
-        margin:32px auto; 
-        padding:20px; 
-        box-sizing:border-box;
-    }
- 
- .brand{
-    text-shadow: 5px 5px 1px #06315f;
-    font-size: 4rem;
-    font-family: "Press Start 2P";
-    font-style: italic;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    text-align: center;
+    html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg2);
+  color: var(--text);
 }
- 
- 
- 
- 
- 
- 
- .info-container {
-      max-width: 800px;
-      margin: 50px auto;
-      background: rgba(36, 0, 145, 0.85);
-      border-radius: 20px;
-      padding: 30px 40px;
-      color: #f3e8ff;
-      line-height: 1.8;
-      box-shadow: 0 0 15px rgba(120, 0, 255, 0.6);
-    }
 
-    h1, h2 {
-    text-shadow: 5px 5px 1px #06315f;
-    font-size: 1.5rem;
-    font-family: "Press Start 2P";
-    font-style: italic;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    text-align: center;
-    }
+/* contenedor general */
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 3rem);
+  box-sizing: border-box;
+}
 
-    ul {
-      margin: 15px 0 20px 25px;
-    }
+/* título principal */
+.brand {
+  text-shadow: 5px 5px 1px #06315f;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-family: "Press Start 2P";
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  text-align: center;
+  line-height: 1.2;
+}
 
-    .back-btn {
-      display: block;
-      margin: 40px auto 0;
-      background: linear-gradient(135deg, #3a0ca3, #7209b7);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 12px;
-      font-family: 'Bungee', cursive;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
+/* contenedor de información */
+.info-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  background: rgba(36, 0, 145, 0.85);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  color: #f3e8ff;
+  line-height: 1.8;
+  box-shadow: 0 0 15px rgba(120, 0, 255, 0.6);
+  animation: fadeIn 0.8s ease;
+}
 
-    .back-btn:hover {
-      background: #ff3399;
-      transform: scale(1.05);
-    }
- 
- 
- 
- 
+/* animación de entrada suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* subtítulos */
+h1, h2 {
+  text-shadow: 3px 3px 6px #06315f;
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  font-family: "Press Start 2P";
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* listas */
+ul {
+  margin: 15px 0 25px 25px;
+  padding-left: 1rem;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+/* botón volver */
+.back-btn {
+  display: block;
+  margin: 40px auto 0;
+  background: linear-gradient(135deg, var(--accent1), #7209b7);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: 'Bungee', cursive;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 0 10px rgba(120, 0, 255, 0.4);
+}
+
+.back-btn:hover {
+  background: var(--accent2);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+}
+
+/* === media queries === */
+@media (max-width: 768px) {
+  .info-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .brand {
+    font-size: 2.2rem;
+  }
+
+  h1, h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-container {
+    margin: 1.5rem 0.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .brand {
+    font-size: 1.6rem;
+  }
+
+  h1, h2 {
+    font-size: 1rem;
+  }
+
+  ul li {
+    font-size: 0.85rem;
+  }
+
+  .back-btn {
+    padding: 12px 20px;
+  }
+}

@@ -1,16 +1,17 @@
-body {
-    background: #0b0320;;
-    font-family: 'Bungee';
-    color: #f3e8ff;
-    overflow-x: hidden;
-    }
-
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
+body {
+    background: #0b0320;
+    font-family: 'Bungee', sans-serif;
+    color: #f3e8ff;
+    overflow-x: hidden;
+}
+
+/* === CONTENEDOR PRINCIPAL === */
 .inicio {
     position: relative;
     min-height: 100vh;
@@ -19,12 +20,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
+    text-align: center;
 }
 
-/* === video fondo === */
-
-.video-inicio{
+/* === VIDEO DE FONDO === */
+.video-inicio {
     position: absolute;
+    top: 0;
+    left: 0;
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -37,104 +41,130 @@ body {
     z-index: 1;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     background: linear-gradient(90deg, rgba(36, 0, 145, 0.6) 16%, rgba(11, 0, 43, 0.6) 100%);
 }
 
-/* === info del inicio === */
-
-.content-inicio{
+/* === CONTENIDO DEL INICIO === */
+.content-inicio {
     position: relative;
-    text-align: center;
-    z-index: 1;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
     animation: fadeInUp 1.5s ease;
+    padding: 1rem;
 }
 
 @keyframes fadeInUp {
-0% {opacity: 0; transform: translateY(40px);}
-100% {opacity: 1; transform: translateY(0);}
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
-.content-inicio h1{
+.content-inicio h1 {
     text-shadow: 5px 5px 1px #06315f;
-    font-size: 4rem;
-    font-family: "Press Start 2P";
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-family: "Press Start 2P", monospace;
     font-style: italic;
     text-transform: uppercase;
     margin-bottom: 2rem;
+    line-height: 1.3;
+    word-wrap: break-word;
 }
 
 .content-inicio p {
-    font-family: 'Roboto';
-    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     margin-bottom: 3rem;
-    line-height: 1.5;
+    line-height: 1.6;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    color: grey;
+    color: #bdbdbd;
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 
-/* === contenedor de botones === */
+/* === CONTENEDOR DE BOTONES === */
 .botones-inicio {
     display: flex;
     justify-content: center;
-    gap: 2rem;           
-    margin-top:5rem;    
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
-/* === botones === */
+/* === BOTONES === */
 .btn-inicio {
     text-decoration: none;
-    padding: 1rem 2rem;
+    padding: 1rem 2.5rem;
     border: 2px solid #f3e8ff;
     color: #f3e8ff;
-    font-family: "Press Start 2P";
+    font-family: "Press Start 2P", monospace;
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
     cursor: pointer;
     text-transform: uppercase;
-    display: inline-block;
     transition: all 0.3s ease;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .btn-inicio:hover {
     background-color: #f3e8ff;
     color: #1e0033;
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 0 15px #f3e8ff;
 }
 
-/* === animacion de salidaa=== */
+/* === ANIMACIÓN DE SALIDA === */
 .fade-out {
     animation: fadeOut 1s ease forwards;
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
+    from { opacity: 1; transform: scale(1); filter: blur(0); }
+    to { opacity: 0; transform: scale(1.05); filter: blur(5px); }
+}
+
+/* === MEDIA QUERIES === */
+
+@media (max-width: 1024px) {
+    .content-inicio h1 {
+        font-size: 3rem;
     }
-    to {
-        opacity: 0;
-        transform: scale(1.05);
-        filter: blur(5px);
+
+    .content-inicio p {
+        font-size: 1.1rem;
     }
 }
 
-
-
-/* === mq === */
 @media (max-width: 768px) {
+    .inicio {
+        padding: 1.5rem;
+    }
+
     .botones-inicio {
         flex-direction: column;
         gap: 1.5rem;
-        margin-top: 3rem; 
+        margin-top: 2rem;
     }
 
     .btn-inicio {
-        width: 80%;
-        margin: 0 auto;
+        width: 100%;
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-inicio h1 {
+        font-size: 1.8rem;
+        text-shadow: 3px 3px 1px #06315f;
+    }
+
+    .content-inicio p {
+        font-size: 0.95rem;
+    }
+
+    .btn-inicio {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.85rem;
     }
 }

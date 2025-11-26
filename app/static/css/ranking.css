@@ -128,5 +128,42 @@
         background-color: #0056b3;
     }
 
+@media (max-width: 768px) {
+  .info-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
 
+  .brand {
+    font-size: 2.2rem;
+  }
+
+  h1, h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-container {
+    margin: 1.5rem 0.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .brand {
+    font-size: 1.6rem;
+  }
+
+  h1, h2 {
+    font-size: 1rem;
+  }
+
+  ul li {
+    font-size: 0.85rem;
+  }
+
+  .back-btn {
+    padding: 12px 20px;
+  }
+}
      

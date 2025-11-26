@@ -13,10 +13,11 @@ trivia_bp = Blueprint("trivia_bp", __name__)
 def empezar():
     
     # para que empiece la sesion vacia por si sale el mensaje de no hay preguntas disponibles
-    session.pop("preguntas_ids", None)
-    session.pop("indice_actual", None)
-    session.pop("score", None)
-
+    #session.pop("preguntas_ids", None)
+    #session.pop("indice_actual", None)
+    #session.pop("score", None)
+    #si se vuelve a la pantalla de configuración, se reinicia la partida ante caidas o recarga de paginas (mejor metodo que el de arriba)
+    session.clear()
 
 
     if request.method == "POST":
